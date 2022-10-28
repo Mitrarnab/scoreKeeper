@@ -1,18 +1,65 @@
 
 // create variables
-let p1Score = document.querySelector('#p1Score');
-let p2Score = document.querySelector('#p2Score');
-let p1Button = document.querySelector('#p1Button');
-let p2Button = document.querySelector('#p2Button');
+let p1 = {
+    score: document.querySelector('#p1Score'),
+    button: document.querySelector('#p1Button'),
+    number: 0,
+    name: "Player One"
+}
+
+
+let p2 = {
+    score: document.querySelector('#p2Score'),
+    button: document.querySelector('#p2Button'),
+    number: 0,
+    name: "Player Two"
+}
+
 let restart = document.querySelector('#reset');
 let lavel = document.querySelector('#lavel');
 let h3 = document.querySelector('h3');
 
+
+
 // variables internally
-let p2number = 0;
-let p1number = 0;
 let winningScore = 3;
 let isGameOver = false;
+
+
+
+// reset function declearation 
+function reset() {
+    isGameOver = false;
+    p1.number = 0;
+    p2.number = 0;
+    p1.button.disabled = false;
+    p2.button.disabled = false;
+    p1.score.textContent = '0';
+    p2.score.textContent = '0';
+    p1.score.classList.remove('winner', 'loser');
+    p2.score.classList.remove('winner', 'loser');
+    h3.innerHTML = "";
+}
+
+
+
+// function for update score 
+function scoreUpdate(player, opponent) {
+    if (!isGameOver) {
+        player.number += 1;
+        if (player.number == winningScore) {
+            isGameOver = true;
+            player.button.disabled = true;
+            opponent.button.disabled = true;
+            player.score.classList.add('winner');
+            opponent.score.classList.add('loser');
+            h3.innerHTML = player.name + " " + 'is Winner';
+        }
+        player.score.textContent = player.number;
+    }
+}
+
+
 
 // play to selection 
 lavel.addEventListener('change', function () {
@@ -21,50 +68,15 @@ lavel.addEventListener('change', function () {
 })
 
 // player one button
-p1Button.addEventListener('click', function () {
-    if (!isGameOver) {
-        p1number += 1;
-        if (p1number == winningScore) {
-            isGameOver = true;
-            p1Button.disabled = true;
-            p2Button.disabled = true;
-            p1Score.classList.add('winner');
-            p2Score.classList.add('loser');
-            h3.innerHTML = 'Player One is Winner';
-        }
-        p1Score.textContent = p1number;
-    }
+p1.button.addEventListener('click', function () {
+    scoreUpdate(p1, p2)
 });
 
 // player two button 
-p2Button.addEventListener('click', function () {
-    if (!isGameOver) {
-        p2number += 1;
-        if (p2number == winningScore) {
-            isGameOver = true;
-            p1Button.disabled = true;
-            p2Button.disabled = true;
-            p2Score.classList.add('winner');
-            p1Score.classList.add('loser');
-            h3.innerHTML = 'Player Two is Winner';
-        }
-        p2Score.textContent = p2number;
-    }
+p2.button.addEventListener('click', function () {
+    scoreUpdate(p2, p1)
 });
 
 // click on reset 
 restart.addEventListener('click', reset)
 
-// reset function declearation 
-function reset() {
-    isGameOver = false;
-    p1number = 0;
-    p2number = 0;
-    p1Button.disabled = false;
-    p2Button.disabled = false;
-    p1Score.textContent = '0';
-    p2Score.textContent = '0';
-    p1Score.classList.remove('winner', 'loser');
-    p2Score.classList.remove('winner', 'loser');
-    h3.innerHTML = "";
-}
