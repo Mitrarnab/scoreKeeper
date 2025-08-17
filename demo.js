@@ -7,7 +7,6 @@ let p1 = {
     name: "Player One"
 }
 
-
 let p2 = {
     score: document.querySelector('#p2Score'),
     button: document.querySelector('#p2Button'),
